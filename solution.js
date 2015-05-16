@@ -4,14 +4,14 @@
 *	@author Lakha Singh
 */
 
-// Exit
+// Terminate program
 var exit = function( code ){
 	code = code || '';
 	console.error( code );
 	process.exit('ERROR: ' + code);
 };
 
-// Validate Test case numbers, 1 >= T <= 128
+// Validate Test cases, 1 >= T <= 128
 var validateT = function( T ){
 	if ( !(T >=1 && T <= 128) ){
 		exit('Test-cases should be between 1 and 128');
@@ -61,9 +61,92 @@ var readInput = function( callback ){
 };
 
 
-readInput(function( input ){
-	console.log( input );
+// Factorize integer
+var factorize = (function(){
+	// To find if given number is prime
+	var isPrime = function( num ){
+		var limit = parseInt( Math.sqrt( num ), 10);
 
+		var i = 2, k = 1;
+
+		// As 2 and 3 cant be included in 6k+1, hence checking them seperately
+		for ( ; i <= 3; i++ ){
+			if ( num % i === 0 ){
+				return false;
+			}
+		}
+
+		// For optimzation, checking against only prime divisors
+		while ( i <= limit ){
+			for ( j = -1; j <= 1; j +=2 ){
+				i = 6*k + j;
+
+				if ( num % i === 0 ){
+					return false;
+				}
+			}
+			k++;
+		}
+		return true;
+	};
+
+	return function( num ){
+		var limit = num/2;
+
+		var i = 2, k = 1;
+
+		// Calulated factors
+		var factors = [];
+
+		// For primr numbers, simply return the number
+		if ( isPrime(num) ){
+			return [ num ];
+		}
+
+		// For optimzation, checking against only prime divisors
+		for ( ; i <= 3; i++ ){
+			while( num % i === 0){
+				factors.push( i );
+				num /= i;
+			}
+		}
+
+		while( num !== 1 ){
+			for ( j = -1; j <= 1; j +=2 ){
+				i = 6*k + j;
+
+				while( num % i === 0){
+					factors.push( i );
+					num /= i;
+				}
+			}
+			k++;
+		}
+
+		return factors;
+	};
+}());
+
+// Start
+readInput(function( input ){
+	var i;
+	// Execute all Test Cases
+	for ( i = 0; i < input.length; i++ ){
+		console.log( factorize( input[ i ].N ) );
+	}
+
+	// Terminate
 	exit();
 });
+
+// Test 4566547864562
+/*
+
+		while( num !== 1 ){
+						while( num % i === 0){
+				factors.push( i );
+				num /= i;
+			}
+			i++;
+			*/
 
