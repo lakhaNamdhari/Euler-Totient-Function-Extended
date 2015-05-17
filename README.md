@@ -18,24 +18,24 @@ For each test case, output a single line containing the answer to the problem i.
 
 ##### Subtask 1
 ```
-1 ≤ N ≤ 104
-0 ≤ K ≤ 104
+1 ≤ N ≤ 10^4
+0 ≤ K ≤ 10^4
 ```
 
 ##### Subtask 2
 ```
-1 ≤ N ≤ 1012
+1 ≤ N ≤ 10^12
 K = 0
 ```
 
 ##### Subtask 3
 ```
-1 ≤ N ≤ 1012
+1 ≤ N ≤ 10^12
 K = 1
 ```
 
 ##### Subtask 4
 ```
-1 ≤ N ≤ 1012
+1 ≤ N ≤ 10^12
 0 ≤ K ≤ 256
 ```
