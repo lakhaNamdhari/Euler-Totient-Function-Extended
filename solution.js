@@ -63,25 +63,34 @@ var readInput = function( callback ){
 };
 
 // Power in range of MOD
-var powMod = function( n, p ){
+var powMod = function( n, p ){ 
 	var res = n;
 
-	var isOdd = !( p % 2 === 0 );
+	// hold temp results
+	var temp = 1;
 
 	if ( !p ){
 		return 1;
 	}
 
-	while( p ){
+	while( p > 1 ){ 
+		if ( !(p % 2 === 0) ){
+			temp *= res;
+			if ( temp >= MOD ){
+				temp %= MOD;
+			}
+		}
 		res *= res;
 		if ( res >= MOD ){
 			res %= MOD;
 		}
 		p = parseInt( p / 2, 10);
 	}
-	if ( isOdd ){
-		res /= n;
+	res *= temp;
+	if ( res >= MOD ){
+		res %= MOD;
 	}
+
 	return res;
 }
 
@@ -166,13 +175,14 @@ var evalFnPr = function( n, k ){
 var evalFn = function( n, k ){
 	var i, a;
 
-	var sum = 0;
+	// as 1 is coprime to all numbers
+	var sum = 1;
 
 	var isCoprime;
 
-	var	factors =  factorize( n );
+	var	factors =  factorize( n ); console.log( factors );
 
-	for ( i = 1; i < n; i++ ){
+	for ( i = 2; i < n; i++ ){
 		isCoprime = true;
 		for ( a = 0; a < factors.length; a++ ){
 			if ( i % factors[ a ] === 0 ){
@@ -181,8 +191,8 @@ var evalFn = function( n, k ){
 			}
 		}
 		if ( isCoprime ){
-			sum += powMod(j, k);
-
+			sum += powMod(i, k);
+			
 			if ( sum >= MOD ){
 				sum %= MOD;
 			}
@@ -224,13 +234,3 @@ readInput(function( input ){
 });
 
 // Test 4566547864562
-/*
-
-		while( num !== 1 ){
-						while( num % i === 0){
-				factors.push( i );
-				num /= i;
-			}
-			i++;
-			*/
-
